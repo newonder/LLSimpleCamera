@@ -75,6 +75,14 @@ typedef enum : NSUInteger {
 @property (nonatomic) AVCaptureWhiteBalanceMode whiteBalanceMode;
 
 /**
+ * Boolean value to enable/disable sound during taking video.
+ * This param installs only during creation instance because of 
+ * it trys to work with audio session if muted is on.
+ * But i don't need it.
+ */
+@property (nonatomic, readonly, getter=isMuted) BOOL muted;
+
+/**
  * Boolean value to indicate if the video is enabled.
  */
 @property (nonatomic, getter=isVideoEnabled) BOOL videoEnabled;
@@ -125,13 +133,18 @@ typedef enum : NSUInteger {
  * Returns an instance of LLSimpleCamera with the given quality.
  * Quality parameter could be any variable starting with AVCaptureSessionPreset.
  */
-- (instancetype)initWithQuality:(NSString *)quality position:(LLCameraPosition)position videoEnabled:(BOOL)videoEnabled;
+- (instancetype)initWithQuality:(NSString *)quality
+                       position:(LLCameraPosition)position
+                          muted:(BOOL)muted
+                   videoEnabled:(BOOL)videoEnabled;
 
 /**
  * Returns an instance of LLSimpleCamera with quality "AVCaptureSessionPresetHigh" and position "CameraPositionBack".
- * @param videEnabled: Set to YES to enable video recording.
+   @param muted: Video without sound
+ * @param videoEnabled: Set to YES to enable video recording.
  */
-- (instancetype)initWithVideoEnabled:(BOOL)videoEnabled;
+- (instancetype)initWithMuted:(BOOL)muted
+                 videoEnabled:(BOOL)videoEnabled;
 
 /**
  * Starts running the camera session.

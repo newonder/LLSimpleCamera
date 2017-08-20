@@ -37,19 +37,30 @@ NSString *const LLSimpleCameraErrorDomain = @"LLSimpleCameraErrorDomain";
 
 - (instancetype)init
 {
-    return [self initWithVideoEnabled:NO];
+    return [self initWithMuted:NO
+                  videoEnabled:NO];
 }
 
-- (instancetype)initWithVideoEnabled:(BOOL)videoEnabled
+- (instancetype)initWithMuted:(BOOL)muted
+                 videoEnabled:(BOOL)videoEnabled
 {
-    return [self initWithQuality:AVCaptureSessionPresetHigh position:LLCameraPositionRear videoEnabled:videoEnabled];
+    return [self initWithQuality:AVCaptureSessionPresetHigh
+                        position:LLCameraPositionRear
+                           muted:muted
+                    videoEnabled:videoEnabled];
 }
 
-- (instancetype)initWithQuality:(NSString *)quality position:(LLCameraPosition)position videoEnabled:(BOOL)videoEnabled
+- (instancetype)initWithQuality:(NSString *)quality
+                       position:(LLCameraPosition)position
+                          muted:(BOOL)muted
+                   videoEnabled:(BOOL)videoEnabled
 {
     self = [super initWithNibName:nil bundle:nil];
     if(self) {
-        [self setupWithQuality:quality position:position videoEnabled:videoEnabled];
+        [self setupWithQuality:quality
+                      position:position
+                         muted:muted
+                  videoEnabled:videoEnabled];
     }
     
     return self;
@@ -60,6 +71,7 @@ NSString *const LLSimpleCameraErrorDomain = @"LLSimpleCameraErrorDomain";
     if (self = [super initWithCoder:aDecoder]) {
         [self setupWithQuality:AVCaptureSessionPresetHigh
                       position:LLCameraPositionRear
+                         muted:NO
                   videoEnabled:YES];
     }
     return self;
@@ -67,6 +79,7 @@ NSString *const LLSimpleCameraErrorDomain = @"LLSimpleCameraErrorDomain";
 
 - (void)setupWithQuality:(NSString *)quality
                 position:(LLCameraPosition)position
+                   muted:(BOOL)muted
             videoEnabled:(BOOL)videoEnabled
 {
     _cameraQuality = quality;
@@ -80,6 +93,7 @@ NSString *const LLSimpleCameraErrorDomain = @"LLSimpleCameraErrorDomain";
     _recording = NO;
     _zoomingEnabled = YES;
     _effectiveScale = 1.0f;
+    _muted = muted;
 }
 
 - (void)viewDidLoad
